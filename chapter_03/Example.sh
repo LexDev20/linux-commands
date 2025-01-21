@@ -63,36 +63,49 @@ ln file link
 ln -s item link
 
 
+# Playground
 
+cd ~
+mkdir playground
+mkdir dir1 dir2
+ls -l
 
+cp -v /etc/passwd .
+cp -i /etc/passwd .
 
+mv passwd fun
+mv fun dir1
+mv dir1/fun dir2
+mv dir2/fun .
 
+mv fun dir1
+mv dir1 dir2
+ls -l dir2
+ls -l dir2/dir1
+mv dir2/dir1 .
+mv dir1/fun .
 
+ln fun fun-hard
+ln fun dir1/fun-hard
+ln fun dir2/fun-hard
+ls -l
+ls -li
 
+ln -s fun fun-sym
+ln -s ../fun dir1/fun-sym
+ln -s ../fun dir2/fun-sym
+ls -l
+ls -l dir1
+ln -s /home/lex/playground/fun dir1/fun-sym
+ln -s dir1 dir1-sym
 
+rm fun-hard
+ls -l
+rm -i fun
+ls -l
+less fun-sym
+rm fun-sym dir1-sym
+ls -l
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+cd
+rm -r playground

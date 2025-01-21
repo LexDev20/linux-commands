@@ -14,6 +14,7 @@ ls
 -r / --reverse          # Reverse the current order
 -S                      # Sort by file size
 -t                      # Sort by modificatiton time
+-i / --inode            # Prints the index number of each file
 ```
 
 ### Examples
@@ -32,7 +33,7 @@ ls -lt --reverse        # Previous result + reverse order in sorting
 drwxr-xr-x 2 lex lex 4096 Apr 17  2024 Desktop
 
 drwxr-xr-x      # Access rights to the file.
-                # The first character could be "d" for a directory, "-" for a regular file and "l" for symbolic/hard links
+                # The first character could be "d" for a directory, "-" for a regular file and "l" for only symbolic links
                 # The next 3 characters are the access rights for the file's owner
                 # The next 3 characters are the access rights for the members of the file's group
                 # The next 3 characters are the access rights for eveyone else
@@ -231,12 +232,43 @@ rm -rf file1 dir1       # Same as previous but if either file1 or dir1 does not 
 
 # Symbolic links / Hard links
 
+### Hard links
+
+To have a better picture of how hard links works we can think that files are made up of two parts:
+- Data part containing the file's content
+- Name part that holds the file's name, which is a hard link itself
+
+When we create hard links, we are creating more "name parts" and all the "name parts" refer to the same "data part".
+The system assigns a chain of disk blocks called inode to that file, then this is associated with the name part.
+Each hard link refers to a specific inode containing the file's contents.
+To know if two hard links refer to the same file we can use le "--inode" argument when executing an "ls" command.
+
+Additional considerations:
+
+- Hard links only reference files, does not work with directories.
+- Hard links cannot span physical devices.
+- Delete a hard link will not delete the file if there are more hard links, the file will be deleted only when all the hard links are deleted.
+
 ### Create a hard link
+
 ```
 ln file link
 ```
 
+### Symbolic links
+
+Symbolic links are a special type of file that contains a text pointer to the target file or directory.
+
+The creation is very similar to creating hard links but of just giving it a name we need to provide a description of where the target file is relative to the symbolic link. You can also use absolute paths to create symbolic link.
+
+Additional considerations:
+
+- Symbolic links can reference files and directories.
+- Symbolic links can span physical devices.
+- Most of the operation are carried out on the link's target, not the link itself. With the exception of "rm", deleting the link will delete only the link, not the file.
+
 ### Create symbolic link
+
 ```
 ln -s item link
 ```
